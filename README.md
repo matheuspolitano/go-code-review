@@ -1,7 +1,3 @@
-#!/bin/bash
-
-cat << 'EOF' > README.md
-
 # Coupon Service Repository
 
 ## 📝 Table of Contents
@@ -348,7 +344,3 @@ Contributions are welcome! Please submit a pull request or open an issue to disc
 ## 📞 Contact
 
 For any inquiries or support, please contact [matheuspolitano1@gmail.com](mailto:matheuspolitano1@gmail.com).
-
-EOF
-
-echo "README.md has been generated successfully."
