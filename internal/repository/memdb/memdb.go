@@ -99,16 +99,12 @@ func (r *Repository) loadFromFile() (err error) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	absPath, err := filepath.Abs(r.filePath)
-	if err != nil {
-		return fmt.Errorf("unable to determine absolute path: %w", err)
-	}
-	log.Printf("Loading data from '%s'", absPath)
-	file, err := os.Open(absPath)
+	log.Printf("Loading data from '%s'", r.filePath)
+	file, err := os.Open(r.filePath)
 	if err != nil {
 		if os.IsNotExist(err) {
 			// File does not exist; create an empty new one
-			file, createErr := os.Create(absPath)
+			file, createErr := os.Create(r.filePath)
 			if createErr != nil {
 				return fmt.Errorf("unable to create data file: %w", createErr)
 			}
@@ -180,13 +176,8 @@ func (r *Repository) saveToFile() (err error) {
 		coupons = append(coupons, coupon)
 	}
 
-	absPath, err := filepath.Abs(r.filePath)
-	if err != nil {
-		return fmt.Errorf("unable to determine absolute path: %w", err)
-	}
-
 	// Open the file with write permissions, create it if it doesn't exist, truncate it
-	file, err := os.OpenFile(absPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+	file, err := os.OpenFile(r.filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return fmt.Errorf("unable to open data file for writing: %w", err)
 	}
