@@ -109,7 +109,11 @@ func (r *Repository) loadFromFile() (err error) {
 			if createErr != nil {
 				return fmt.Errorf("unable to create data file: %w", createErr)
 			}
-			file.Close()
+			defer func() {
+				if cerr := file.Close(); cerr != nil && err != nil {
+					err = cerr
+				}
+			}()
 			return nil
 		}
 		return fmt.Errorf("unable to open data file: %w", err)
