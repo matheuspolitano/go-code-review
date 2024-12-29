@@ -34,7 +34,7 @@ This repository is a fork of the [go-code-review](https://github.com/SchwarzIT/g
 ## 🛠️ Features
 
 - **Coupon Creation:** Generate new coupons with validation.
-- **Persistent Coupons:** Coupons will be saved in `data/coupons.data.json` to ensure persistence.
+- **Persistent Coupons:** Coupons will be saved in `/app/data/coupons.data.json`in container to ensure persistence.
 - **Coupon Application:** Apply coupons to shopping baskets with validation.
 - **Bulk Retrieval:** Retrieve multiple coupons by their codes.
 - **Docker Support:** Easy deployment using Docker containers.
