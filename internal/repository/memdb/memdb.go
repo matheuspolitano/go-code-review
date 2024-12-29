@@ -92,7 +92,7 @@ func (r *Repository) FindByCode(code string) (Coupon, error) {
 
 // loadFromFile reads the coupons from the data.json file into the repository.
 // If the file does not exist, it initializes an empty repository and creates the file.
-func (r *Repository) loadFromFile() error {
+func (r *Repository) loadFromFile() (err error) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -114,7 +114,11 @@ func (r *Repository) loadFromFile() error {
 		}
 		return fmt.Errorf("unable to open data file: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if cerr := file.Close(); cerr != nil && err != nil {
+			err = cerr
+		}
+	}()
 
 	decoder := json.NewDecoder(file)
 	var coupons []*Coupon
@@ -162,7 +166,7 @@ func (r *Repository) Save(coupon *Coupon) error {
 
 // saveToFile writes the current state of coupons to the data.json file.
 // It directly writes to data.json without using a temporary file.
-func (r *Repository) saveToFile() error {
+func (r *Repository) saveToFile() (err error) {
 	// Prepare a slice to hold coupons for JSON encoding
 	coupons := make([]*Coupon, 0, len(r.entries))
 	for _, coupon := range r.entries {
@@ -179,7 +183,11 @@ func (r *Repository) saveToFile() error {
 	if err != nil {
 		return fmt.Errorf("unable to open data file for writing: %w", err)
 	}
-	defer file.Close()
+	defer func() {
+		if cerr := file.Close(); cerr != nil && err != nil {
+			err = cerr
+		}
+	}()
 
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "  ") // For pretty-printing
