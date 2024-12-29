@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("Failed to load config: %v", err)
 	}
 
-	repo, err := memdb.NewRepository(cfg.LOCAL_DB_FILENAME)
+	repo, err := memdb.NewRepositoryDefault()
 	if err != nil {
 		log.Fatalf("Failed to load the local repository: %v", err)
 	}

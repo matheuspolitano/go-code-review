@@ -109,3 +109,4 @@ docs/*.lock
 
 # not commit coupon data
 *.data.json
+data/

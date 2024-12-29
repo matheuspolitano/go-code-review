@@ -34,6 +34,7 @@ This repository is a fork of the [go-code-review](https://github.com/SchwarzIT/g
 ## 🛠️ Features
 
 - **Coupon Creation:** Generate new coupons with validation.
+- **Persistent Coupons:** Coupons will be saved in `data/coupons.data.json` to ensure persistence.
 - **Coupon Application:** Apply coupons to shopping baskets with validation.
 - **Bulk Retrieval:** Retrieve multiple coupons by their codes.
 - **Docker Support:** Easy deployment using Docker containers.
@@ -53,10 +54,11 @@ docker pull matheuspolitano/couponservice:latest
 #### 2. **Run the Docker Container**
 
 ```bash
-docker run -d --name couponservice -p 80:80 matheuspolitano/couponservice:latest
+docker run -d --name couponservice -p 80:80 -v ${PWD}/data:/app/data  matheuspolitano/couponservice:latest
 ```
 
 - **Port Configuration:** Replace `-p 80:80` with the desired host and container ports.
+- **Volume Configuration:** Replace `${PWD}/data:/app/data ` with the path that you want store the coupons.
 - **Environment Variables & Volumes:** Add any necessary environment variables [🛠️ configuration](#-configuration) or volume mounts as needed.
 
 ### 🛠️ Installation

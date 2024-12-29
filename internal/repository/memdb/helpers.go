@@ -12,7 +12,7 @@ func SetupTestRepository(t *testing.T) *Repository {
 	t.Helper()
 
 	tempDir := t.TempDir()
-	dataFilePath := fmt.Sprintf("%s/%s", tempDir, COUPONS_DEFAULT_DATA_PATH)
+	dataFilePath := fmt.Sprintf("%s/%s", tempDir, default_db_filename)
 
 	repo, err := NewRepository(dataFilePath)
 	assert.NoError(t, err, "Failed to create repository")

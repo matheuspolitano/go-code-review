@@ -10,7 +10,7 @@ import (
 	"sync"
 )
 
-const COUPONS_DEFAULT_DATA_PATH = "coupons.data.json"
+const default_db_filename = "coupons.data.json"
 
 type Coupon struct {
 	ID             string `json:"id"`
@@ -28,16 +28,29 @@ type Repository struct {
 }
 
 // NewRepository creates and returns a new Repository instance.
-// It loads existing coupons from filepath  if the file exists,
-// It couponsDataPath is empty the default value will be 'coupons.data.json'
-// otherwise, it initializes an empty repository and creates the file.
-func NewRepository(couponsDataPath string) (*Repository, error) {
-	if couponsDataPath == "" {
-		couponsDataPath = COUPONS_DEFAULT_DATA_PATH
-	}
+// filePath to store the db
+func NewRepository(filePath string) (*Repository, error) {
 	repo := &Repository{
 		entries:  make(map[string]*Coupon),
-		filePath: couponsDataPath, // Path to the data.json file in the root directory
+		filePath: filePath,
+	}
+
+	// Load existing coupons from the file
+	err := repo.loadFromFile()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load data from file: %w", err)
+	}
+
+	return repo, nil
+}
+
+// NewRepositoryDefault creates and returns a new Repository instance.
+// default file path value will be './data/coupons.data.json'
+// otherwise, it initializes an empty repository and creates the file.
+func NewRepositoryDefault() (*Repository, error) {
+	repo := &Repository{
+		entries:  make(map[string]*Coupon),
+		filePath: filepath.Join("./data", default_db_filename),
 	}
 
 	// Load existing coupons from the file
