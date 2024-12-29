@@ -91,6 +91,18 @@ API_ALLOW_ORIGINS=https://example.com,https://api.example.com
    docker run -d --name couponservice -p 80:80 couponservice
    ```
 
+### Using Golang without deployment
+
+```bash
+go run ./cmd/coupon_service
+```
+
+**Notes:**
+
+- **Example Coupons:** Two examples coupons have been added to the `data` folder to help you get started.
+- **Golang Dependency:** Those examples only works when running the service with Golang.
+- **Docker Image Creation:** The `data` folder is completely ignored during the Docker image creation process and will create another new one, so if you build the application using Docker, the contents of the data folder will not be included.
+
 ## 🖥️ API Documentation
 
 ### 📌 Base Path
