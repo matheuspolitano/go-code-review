@@ -10,7 +10,10 @@ import (
 	"sync"
 )
 
-const default_db_filename = "coupons.data.json"
+const (
+	default_db_filename = "coupons.data.json"
+	baseDir             = "./data"
+)
 
 type Coupon struct {
 	ID             string `json:"id"`
@@ -50,7 +53,7 @@ func NewRepository(filePath string) (*Repository, error) {
 func NewRepositoryDefault() (*Repository, error) {
 	repo := &Repository{
 		entries:  make(map[string]*Coupon),
-		filePath: filepath.Join("./data", default_db_filename),
+		filePath: filepath.Join(baseDir, default_db_filename),
 	}
 
 	// Load existing coupons from the file
@@ -183,7 +186,7 @@ func (r *Repository) saveToFile() (err error) {
 	}
 
 	// Open the file with write permissions, create it if it doesn't exist, truncate it
-	file, err := os.OpenFile(absPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	file, err := os.OpenFile(absPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return fmt.Errorf("unable to open data file for writing: %w", err)
 	}
