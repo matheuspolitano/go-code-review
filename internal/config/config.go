@@ -11,7 +11,8 @@ import (
 
 // Config storage application configuration
 type Config struct {
-	API api.Config
+	API               api.Config
+	LOCAL_DB_FILENAME string `env:"LOCAL_DB_FILENAME"`
 }
 
 type OptionsConfigFunc func(*Config) error
